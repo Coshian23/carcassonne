@@ -5,7 +5,7 @@ import sys
 
 def main():
     pygame.init()  # Pygameの初期化
-    screen = pygame.display.set_mode((500, 500))  # 大きさ600*500の画面を生成
+    screen = pygame.display.set_mode((500, 600))  # 大きさ500*500の画面を生成
     pygame.display.set_caption("Carcassonne")  # タイトルバーに表示する文字
     board = [[0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -13,6 +13,8 @@ def main():
              [0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0]]
     tile = ["d-tile.png", 90]
+    (x, y) = (2, 2)  # タイル座標
+    (x0, y0) = (0, 5)
 
     while (1):
         screen.fill((0, 0, 0))  # 画面を黒色に塗りつぶし
@@ -34,7 +36,6 @@ def main():
         # pygame.draw.rect(screen,(0,200,0),Rect(200,100,100,100),2)
         # pygame.draw.rect(screen,(0,80,0),Rect(10,10,80,50))    # 四角形を描画(塗りつぶし)
 
-        (x, y) = (2, 2)  # タイル座標
         board[x][y] = tile  # ボードへタイル格納
         player = pygame.image.load(tile[0]).convert_alpha()  # タイル画像読み込み
         # player = pygame.transform.smoothscale(player, (95,95))  #タイル拡大
@@ -43,9 +44,14 @@ def main():
         player = pygame.transform.rotate(player, tile[1])  # タイル回転
         screen.blit(player, rect_player)  # プレイヤー画像の描画
 
+        # ネクストタイル
+        next_tile = pygame.image.load("j-tile.png").convert_alpha()  # タイル画像読み込み
+        rect_next_tile = next_tile.get_rect()
+
+        rect_next_tile.center = (100 * x0 + 50, 100 * y0 + 50)  # 座標からタイル位置補正
+        screen.blit(next_tile, rect_next_tile)  # プレイヤー画像の描画
+
         pygame.display.update()  # 画面を更新
-
-
 
         # イベント処理
         for event in pygame.event.get():
@@ -58,7 +64,15 @@ def main():
                     tile[1] += 90
                     # print("hit")
                 else:
-                    print("out bound")  # タイル外をクリック
+                    for i in range(0, 5):
+                        for j in range(0, 5):  # グリッド探索
+                            rect_board = pygame.draw.rect(screen, (100, 100, 100), Rect(100 * i, 100 * j, 100, 100),
+                                                          2)  # グリッド表示
+                            if rect_board.collidepoint(event.pos):
+                                print("board:")
+                                print(i)
+                                print(j)
+                                (x0, y0) = (i, j)
 
 
 if __name__ == "__main__":
