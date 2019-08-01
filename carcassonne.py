@@ -16,9 +16,16 @@ def main():
 
     while (1):
         screen.fill((0, 0, 0))  # 画面を黒色に塗りつぶし
+        mpos = pygame.mouse.get_pos() #マウス座標取得
+        #print(mpos)
+        #if rect_player.collidepoint(mpos):
+        #    print("over")
+
         for i in range(0, 5):
             for j in range(0, 5):
-                pygame.draw.rect(screen, (100, 100, 100), Rect(100 * i, 100 * j, 100, 100), 2)  # グリッド表示
+                rect_board = pygame.draw.rect(screen, (100, 100, 100), Rect(100 * i, 100 * j, 100, 100), 2)  # グリッド表示
+                if (rect_board.collidepoint(mpos)) and (pygame.mouse.get_focused()): #マウスがグリッド上にある＆ウィンドウ上の場合
+                    pygame.draw.rect(screen, (200, 200, 200), Rect(100 * i, 100 * j, 100, 100)) #グリッド塗りつぶし
 
         # pygame.draw.rect(screen,(0,200,0),Rect(200,200,100,100),2)   # 四角形を描画(塗りつぶしなし)
         # pygame.draw.rect(screen,(0,200,0),Rect(300,200,100,100),2)
@@ -38,8 +45,7 @@ def main():
 
         pygame.display.update()  # 画面を更新
 
-        mpos = pygame.mouse.get_pos()
-        print(mpos)
+
 
         # イベント処理
         for event in pygame.event.get():
@@ -52,7 +58,7 @@ def main():
                     tile[1] += 90
                     # print("hit")
                 else:
-                    print("mekaabu")  # タイル外をクリック
+                    print("out bound")  # タイル外をクリック
 
 
 if __name__ == "__main__":
