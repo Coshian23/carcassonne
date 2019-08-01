@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import pygame
+import tiles
 from pygame.locals import *
 import sys
 
@@ -7,6 +8,7 @@ def main():
     pygame.init()  # Pygameの初期化
     screen = pygame.display.set_mode((500, 600))  # 大きさ500*500の画面を生成
     pygame.display.set_caption("Carcassonne")  # タイトルバーに表示する文字
+
     board = [[0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0],
