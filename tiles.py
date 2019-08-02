@@ -10,8 +10,19 @@ class tile_class:
 
 tile = [None for _ in range(72)]
 
+# tile[0]はdで固定する
+for i in [0]:
+    tile[i] = tile_class()
+    tile[i].name = "d-tile"
+    tile[i].image = "d-tile.png"
+    tile[i].array = [["F0","R0","F1"],
+                     ["F0","R0","C0"],
+                     ["F0","R0","F1"]]
+    tile[i].pennant = False
+    tile[i].cloister = False
+
 # a 2
-for i in [0,1]:
+for i in [1,2]:
     tile[i] = tile_class()
     tile[i].name = "a-tile"
     tile[i].image = "a-tile.png"
@@ -44,7 +55,7 @@ for i in [7]:
     tile[i].cloister = False
 
 # d 4
-for i in [8,9,10,11]:
+for i in [8,9,10]:
     tile[i] = tile_class()
     tile[i].name = "d-tile"
     tile[i].image = "d-tile.png"
