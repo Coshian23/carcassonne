@@ -27,9 +27,11 @@ def main():
     (x0, y0) = (0, 5) # ネクストタイル座標
 
     # デッキ作成
-    deck = tiles.tile[1:10]
+    deck = tiles.tile[1:11]
     random.shuffle(deck)
     deck.insert(0,tiles.tile[0]) # スタートタイルのみ先頭に追加
+    for i in range(0,11):
+        print(str(i) + ":" + deck[i].image)
     board[x][y] = [deck[0], 90]
 
     while (1):
@@ -55,7 +57,10 @@ def main():
                     screen.blit(board_tile, rect_board_tile)
 
         # ネクストタイル
-        next_tile = pygame.image.load(deck[turn].image).convert_alpha()  # タイル画像読み込み
+        if turn < len(deck):
+            next_tile = pygame.image.load(deck[turn].image).convert_alpha()  # タイル画像読み込み
+        else:
+            next_tile = pygame.image.load("end-tile.png").convert_alpha()  # タイル画像読み込み
         rect_next_tile = next_tile.get_rect()
         rect_next_tile.center = (100 * x0 + 50, 100 * y0 + 50)  # 座標からタイル位置補正
         screen.blit(next_tile, rect_next_tile)  # プレイヤー画像の描画
@@ -80,7 +85,7 @@ def main():
                             rect_board = pygame.draw.rect(screen, (100, 100, 100), Rect(100 * i, 100 * j, 100, 100),
                                                           2)  # グリッド表示
                             if rect_board.collidepoint(event.pos):
-                                board[i][j] = [deck[1],0]
+                                board[i][j] = [deck[turn],0]
                                 turn += 1
 
 
